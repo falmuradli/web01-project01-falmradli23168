@@ -135,6 +135,16 @@ body {
 .cart-list { list-style: none; margin: 0; padding: 0; }
 .cart-total { margin: 0.75rem 0 0; font-size: 1.1rem; }
 
+.seat {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px 5px 2px 2px;
+  cursor: pointer;
+}
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .map-viewport { height: 50vh; }

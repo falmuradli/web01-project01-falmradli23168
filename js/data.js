@@ -15,13 +15,13 @@ const VENUE  = {
 
     sections: [
         {
-            id:"BOXL", name: "Box left", category:"VIP",
+            id:"BOXL", name: "Box left", category:"vip",
             origin: {x:12, y:200}, firstRow: "A", rows: 4, seatsPerRow: 2,
             unavailable: ["A-1"]
         },
 
         {
-            id: "BOXr", name: "Box right", category:"VIP",
+            id: "BOXr", name: "Box right", category:"vip",
             origin: {x:932, y:200}, firstRow:"A", rows:4, seatsPerRow:2,
             unavailable: ["B-2"]
         },

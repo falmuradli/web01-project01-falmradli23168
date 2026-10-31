@@ -1,8 +1,6 @@
-// ---- State (top of file) ----
-const seatsById = {};     // "ORF-A-07" -> info about that seat
-let inspectedId = null;   // which seat is currently inspected
+const seatsById = {};     
+let inspectedId = null;   
 
-// ---- Legend ----
 function renderLegend() {
     const legend = document.getElementById("legend");
     const priceList = document.getElementById("price-list");
@@ -15,7 +13,7 @@ function renderLegend() {
     });
 }
 
-// ---- Venue ----
+
 function renderVenue() {
     const canvas = document.getElementById("map-canvas");
     const pitch = VENUE.seatSize + VENUE.seatGap;
@@ -33,18 +31,18 @@ function renderVenue() {
                 seat.dataset.id = makeSeatId(section.id, rowLetter, n);
                 seat.style.left = section.origin.x + (n - 1) * pitch + "px";
                 seat.style.top = section.origin.y + r * pitch + "px";
-                seat.style.setProperty("--seat-color", color);   // Step 2
+                seat.style.setProperty("--seat-color", color);   
 
-                const label = `${rowLetter}-${n}`;                // Step 2
+                const label = `${rowLetter}-${n}`;                
                 seat.setAttribute("aria-label", `${section.name}, row ${rowLetter}, seat ${n}`);
 
                 const isUnavailable = section.unavailable.includes(label);
-                if (isUnavailable) {                              // Step 2
+                if (isUnavailable) {                              
                     seat.disabled = true;
                     seat.classList.add("unavailable");
                 }
 
-                seatsById[seat.dataset.id] = {                    // Step 3a
+                seatsById[seat.dataset.id] = {                    
                     id: seat.dataset.id,
                     sectionName: section.name,
                     row: rowLetter,
@@ -58,14 +56,14 @@ function renderVenue() {
         }
     });
 
-    canvas.addEventListener("click", event => {                   // Step 3c
+    canvas.addEventListener("click", event => {                   
         const seat = event.target.closest(".seat");
         if (!seat) return;
         inspectSeat(seat.dataset.id);
     });
 }
 
-// ---- Inspection (Step 3b) ----
+
 function inspectSeat(id) {
     const info = seatsById[id];
     const cat = TICKET_CATEGORIES[info.category];
@@ -84,7 +82,7 @@ function inspectSeat(id) {
     document.getElementById("add-to-cart").disabled = false;
 }
 
-// ---- Start ----
+// LOAD EVERYTHING
 function initialize() {
     renderLegend();
     renderVenue();

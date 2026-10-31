@@ -1,8 +1,29 @@
 const TICKET_CATEGORIES = {
-    vip:      { name: "VIP Box",   price: 120, color: "#c0392b" },
-    premium:  { name: "Premium",   price: 90,  color: "#e2b04a" },
-    standard: { name: "Standard",  price: 60,  color: "#3a8fd9" },
-    balcony:  { name: "Balcony",   price: 35,  color: "#4fb286" }
+
+    vip:      { 
+        name: "VIP Box",   
+        price: 120, 
+        color: "#c0392b" 
+    },
+
+    premium:  { 
+        name: "Premium",   
+        price: 90,  
+        color: "#e2b04a" 
+    },
+
+    standard: { 
+        name: "Standard",  
+        price: 60,  
+        color: "#3a8fd9" 
+    },
+
+    balcony:  { 
+        name: "Balcony",   
+        price: 35,  
+        color: "#4fb286" 
+    }
+
 };
 
 
@@ -21,7 +42,7 @@ const VENUE  = {
         },
 
         {
-            id: "BOXr", name: "Box right", category:"vip",
+            id: "BOXR", name: "Box right", category:"vip",
             origin: {x:932, y:200}, firstRow:"A", rows:4, seatsPerRow:2,
             unavailable: ["B-2"]
         },

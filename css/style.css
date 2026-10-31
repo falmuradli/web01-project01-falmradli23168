@@ -145,6 +145,15 @@ body {
   cursor: pointer;
 }
 
+.seat.in-cart {
+  background: #fff;
+}
+
+.seat.in-cart {
+  background: #22dd55;
+  outline: 2px solid #0b7a2a;
+}
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .map-viewport { height: 50vh; }

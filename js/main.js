@@ -1,5 +1,11 @@
 const seatsById = {};     
-let inspectedId = null;   
+let inspectedId = null;
+let cart = [];   
+const view = { scale: 1, x: 0, y: 0};
+const ZOOM_STEP = 0.2;
+const MIN_SCALE = 0.5;
+const MAX_SCALE = 2.5;
+const MOVE_STEP = 60;
 
 function renderLegend() {
     const legend = document.getElementById("legend");
@@ -82,11 +88,85 @@ function inspectSeat(id) {
     document.getElementById("add-to-cart").disabled = false;
 }
 
+function applyView() {
+    const canvas = document.getElementById("map-canvas");
+    canvas.style.transform = 
+        `translate(${view.x}px, ${view.y}px) scale(${view.scale})`;
+}
+
+function setupControls() {
+    document.querySelector(".map-controls").addEventListener("click", event => {
+        const button = event.target.closest("button");
+        if(!button) return;
+
+        const action = button.dataset.action;
+
+        switch (action) {
+            case "zoom-in":
+                view.scale = Math.min(MAX_SCALE, view.scale + ZOOM_STEP);
+                break;
+            case "zoom-out":
+                view.scale = Math.max(MIN_SCALE, view.scale - ZOOM_STEP);
+                break;
+            case "move-up":
+                view.y += MOVE_STEP;
+                break;
+            case "move-down":
+                view.y -= MOVE_STEP;
+                break;
+            case "move-left":
+                view.x += MOVE_STEP;
+                break;
+            case "move-right":
+                view.x -= MOVE_STEP;
+                break;
+            case "reset":
+                view.scale = 1;
+                view.x = 0;
+                view.y = 0;
+                break;
+        }
+
+        applyView();
+    });
+}
+
+function addToCart() {
+    if (inspectedId === null) return;
+    if (cart.includes(inspectedId)) return;
+
+    cart.push(inspectedId);
+    document.querySelector(`.seat[data-id="${inspectedId}"]`).classList.add("in-cart");
+    renderCart();
+}
+
+function renderCart() {
+    const list = document.getElementById("cart-list");
+    list.innerHTML = "";
+    let total = 0;
+
+    if (cart.length === 0) {
+        list.innerHTML = '<li class="muted">Your cart is empty.</li>';
+    }
+
+    cart.forEach(id => {
+        const info = seatsById[id];
+        const price = TICKET_CATEGORIES[info.category].price;
+        total += price;
+        list.insertAdjacentHTML("beforeend",
+            `<li>${info.sectionName}, Row ${info.row}, Seat ${info.number} - $${price}</li>`);
+    });
+
+    document.getElementById("cart-total").textContent = "$" + total;
+}
+
 // LOAD EVERYTHING
 function initialize() {
     renderLegend();
     renderVenue();
+    setupControls();
     console.log(`${VENUE.name}: ${VENUE.sections.length} sections, ${countSeats(VENUE)} seats`);
+    document.getElementById("add-to-cart").addEventListener("click", addToCart);
 }
 
 initialize();

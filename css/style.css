@@ -154,6 +154,25 @@ body {
   outline: 2px solid #0b7a2a;
 }
 
+.cart-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.remove-btn {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+}
+.remove-btn:hover { border-color: #c0392b; }
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .map-viewport { height: 50vh; }

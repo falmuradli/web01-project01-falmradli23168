@@ -154,11 +154,21 @@ function renderCart() {
         const price = TICKET_CATEGORIES[info.category].price;
         total += price;
         list.insertAdjacentHTML("beforeend",
-            `<li>${info.sectionName}, Row ${info.row}, Seat ${info.number} - $${price}</li>`);
+            `<li>
+                ${info.sectionName}, Row ${info.row}, Seat ${info.number} - $${price}
+                <button type="button" class="remove-btn" data-id="${id}">Remove</button>
+            </li>`);
     });
 
     document.getElementById("cart-total").textContent = "$" + total;
 }
+
+function removeFromCart(id) {
+    cart = cart.filter(item => item !== id);
+    document.querySelector(`.seat[data-id="${id}"]`).classList.remove("in-cart");
+    renderCart();
+}
+
 
 // LOAD EVERYTHING
 function initialize() {
@@ -167,6 +177,11 @@ function initialize() {
     setupControls();
     console.log(`${VENUE.name}: ${VENUE.sections.length} sections, ${countSeats(VENUE)} seats`);
     document.getElementById("add-to-cart").addEventListener("click", addToCart);
+    document.getElementById("cart-list").addEventListener("click", event => {
+        const button = event.target.closest(".remove-btn");
+        if (!button) return;
+        removeFromCart(button.dataset.id);
+    });
 }
 
 initialize();

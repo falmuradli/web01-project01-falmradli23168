@@ -69,6 +69,20 @@ function renderVenue() {
     });
 }
 
+function updateAddButton() {
+    const button = document.getElementById("add-to-cart");
+
+    if(inspectedId === null) {
+        button.disabled = true;
+        button.textContent = "ADD TO CART";
+    } else if(cart.includes(inspectedId)) {
+        button.disabled = true;
+        button.textContent = "ALREADY IN CART";
+    } else {
+        button.disabled = false;
+        button.textContent = "ADD TO CART";
+    }
+}
 
 function inspectSeat(id) {
     const info = seatsById[id];
@@ -85,7 +99,7 @@ function inspectSeat(id) {
         <p>Row ${info.row}, Seat ${info.number}</p>
         <p>${cat.name}: <strong>$${cat.price}</strong></p>
     `;
-    document.getElementById("add-to-cart").disabled = false;
+    updateAddButton();
 }
 
 function fitView() {

@@ -6,6 +6,7 @@ const ZOOM_STEP = 0.2;
 const MIN_SCALE = 0.3;
 const MAX_SCALE = 2.5;
 const MOVE_STEP = 60;
+let lastViewportWidth = 0;
 
 function renderLegend() {
     const legend = document.getElementById("legend");
@@ -193,6 +194,18 @@ function removeFromCart(id) {
     renderCart();
 }
 
+function setupResize() {
+    const viewport = document.getElementById("map-viewport");
+    lastViewportWidth = viewport.clientWidth;
+
+    window.addEventListener("resize", () => {
+        if(viewport.clientWidth === lastViewportWidth) return;
+        lastViewportWidth = viewport.clientWidth;
+        fitView();
+        applyView();
+    });
+}
+
 
 // LOAD EVERYTHING
 function initialize() {
@@ -201,6 +214,7 @@ function initialize() {
     setupControls();
     fitView();
     applyView();
+    setupResize();
     console.log(`${VENUE.name}: ${VENUE.sections.length} sections, ${countSeats(VENUE)} seats`);
     document.getElementById("add-to-cart").addEventListener("click", addToCart);
     document.getElementById("cart-list").addEventListener("click", event => {

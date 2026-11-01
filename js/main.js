@@ -3,7 +3,7 @@ let inspectedId = null;
 let cart = [];   
 const view = { scale: 1, x: 0, y: 0};
 const ZOOM_STEP = 0.2;
-const MIN_SCALE = 0.5;
+const MIN_SCALE = 0.3;
 const MAX_SCALE = 2.5;
 const MOVE_STEP = 60;
 
@@ -88,6 +88,18 @@ function inspectSeat(id) {
     document.getElementById("add-to-cart").disabled = false;
 }
 
+function fitView() {
+    const viewport = document.getElementById("map-viewport");
+    const scale = Math.min(
+        viewport.clientWidth / VENUE.width,
+        viewport.clientHeight / VENUE.height
+    );
+
+    view.scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
+    view.x = (viewport.clientWidth - VENUE.width * view.scale) / 2;
+    view.y = (viewport.clientHeight - VENUE.height * view.scale) / 2;
+}
+
 function applyView() {
     const canvas = document.getElementById("map-canvas");
     canvas.style.transform = 
@@ -121,9 +133,7 @@ function setupControls() {
                 view.x -= MOVE_STEP;
                 break;
             case "reset":
-                view.scale = 1;
-                view.x = 0;
-                view.y = 0;
+                fitView();
                 break;
         }
 
@@ -175,6 +185,8 @@ function initialize() {
     renderLegend();
     renderVenue();
     setupControls();
+    fitView();
+    applyView();
     console.log(`${VENUE.name}: ${VENUE.sections.length} sections, ${countSeats(VENUE)} seats`);
     document.getElementById("add-to-cart").addEventListener("click", addToCart);
     document.getElementById("cart-list").addEventListener("click", event => {

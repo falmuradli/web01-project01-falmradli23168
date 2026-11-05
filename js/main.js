@@ -257,6 +257,66 @@ function setupWheelZoom() {
     }, {passive: false});
 }
 
+function setupDragPan() {
+    const viewport = document.getElementById("map-viewport");
+    const DRAG_THRESHOLD = 5;
+
+    let pressed = false;
+    let dragging = false;
+    let suppressClick = false;
+    let startX = 0, startY = 0;
+    let startViewX = 0, startViewY = 0;
+
+    viewport.addEventListener("pointerdown", event => {
+        if(event.button !== 0) return;
+        pressed = true;
+        dragging = false;
+        startX = event.clientX;
+        startY = event.clientY;
+        startViewX = view.x;
+        startViewY = view.y;
+    });
+
+    viewport.addEventListener("pointermove", event => {
+        if(!pressed) return;
+
+        const dx = event.clientX - startX;
+        const dy = event.clientY - startY;
+
+        if(!dragging) {
+            if(Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+            dragging = true;
+            viewport.setPointerCapture(event.pointerId);
+            viewport.classList.add("dragging");
+        }
+
+        view.x = startViewX + dx;
+        view.y = startViewY + dy;
+        applyView();
+    });
+
+    function endDrag() {
+        if (!pressed) return;
+            pressed = false;
+        if (dragging) {
+            viewport.classList.remove("dragging");
+            suppressClick = true;
+            setTimeout(() => { suppressClick = false; }, 0);
+        }
+        dragging = false;
+    }
+
+    viewport.addEventListener("pointerup", endDrag);
+    viewport.addEventListener("pointercancel", endDrag);
+
+    // runs before the seat click handler, and blocks it after a drag
+    viewport.addEventListener("click", event => {
+        if (suppressClick) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    }, true);
+}
 
 // LOAD EVERYTHING
 function initialize() {
@@ -268,6 +328,7 @@ function initialize() {
     applyView();
     setupResize();
     setupWheelZoom();
+    setupDragPan();
     console.log(`${VENUE.name}: ${VENUE.sections.length} sections, ${countSeats(VENUE)} seats`);
     document.getElementById("add-to-cart").addEventListener("click", addToCart);
     document.getElementById("cart-list").addEventListener("click", event => {

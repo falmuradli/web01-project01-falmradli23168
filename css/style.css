@@ -212,6 +212,13 @@ button { touch-action: manipulation; }
 }
 .remove-btn:hover { border-color: #c0392b; }
 
+.map-viewport {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.map-viewport.dragging { cursor: grabbing; }
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
   .map-viewport { height: 50vh; }

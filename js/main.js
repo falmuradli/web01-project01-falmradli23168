@@ -116,7 +116,19 @@ function fitView() {
     view.y = (viewport.clientHeight - VENUE.height * view.scale) / 2;
 }
 
+function clampView() {
+    const viewport = document.getElementById("map-viewport");
+    const margin = 100;   // at least this many pixels of the map stay visible
+
+    const mapW = VENUE.width * view.scale;
+    const mapH = VENUE.height * view.scale;
+
+    view.x = Math.min(viewport.clientWidth - margin, Math.max(margin - mapW, view.x));
+    view.y = Math.min(viewport.clientHeight - margin, Math.max(margin - mapH, view.y));
+}
+
 function applyView() {
+    clampView();
     const canvas = document.getElementById("map-canvas");
     canvas.style.transform = 
         `translate(${view.x}px, ${view.y}px) scale(${view.scale})`;

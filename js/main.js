@@ -233,6 +233,30 @@ function setupResize() {
     });
 }
 
+function setupWheelZoom() {
+    const viewport = document.getElementById("map-viewport");
+
+    viewport.addEventListener("wheel", event => {
+        event.preventDefault();
+
+        const rect = viewport.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        const mapX = (mouseX - view.x) / view.scale;
+        const mapY = (mouseY - view.y) / view.scale;
+
+        const factor = event.deltaY < 0 ? 1.1 : 1 / 1.1;
+        view.scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, view.scale * factor));
+
+        view.x = mouseX - mapX * view.scale;
+        view.y = mouseY - mapY * view.scale;
+
+        applyView();
+
+    }, {passive: false});
+}
+
 
 // LOAD EVERYTHING
 function initialize() {
@@ -243,6 +267,7 @@ function initialize() {
     fitView();
     applyView();
     setupResize();
+    setupWheelZoom();
     console.log(`${VENUE.name}: ${VENUE.sections.length} sections, ${countSeats(VENUE)} seats`);
     document.getElementById("add-to-cart").addEventListener("click", addToCart);
     document.getElementById("cart-list").addEventListener("click", event => {

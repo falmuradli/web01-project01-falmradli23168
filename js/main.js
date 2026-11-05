@@ -7,6 +7,7 @@ const MIN_SCALE = 0.3;
 const MAX_SCALE = 2.5;
 const MOVE_STEP = 60;
 let lastViewportWidth = 0;
+const STORAGE_KEY = "meridian-cart";
 
 function renderLegend() {
     const legend = document.getElementById("legend");
@@ -162,7 +163,9 @@ function addToCart() {
 
     cart.push(inspectedId);
     document.querySelector(`.seat[data-id="${inspectedId}"]`).classList.add("in-cart");
+    saveCart();
     renderCart();
+    updateAddButton();
 }
 
 function renderCart() {
@@ -191,6 +194,30 @@ function renderCart() {
 function removeFromCart(id) {
     cart = cart.filter(item => item !== id);
     document.querySelector(`.seat[data-id="${id}"]`).classList.remove("in-cart");
+    saveCart();
+    renderCart();
+    updateAddButton();
+}
+
+
+function saveCart() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+}
+
+function loadCart() {
+    let saved = [];
+    try {
+        saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch (error) {
+        saved = [];
+    }
+
+    cart = saved.filter(id => seatsById[id] && !seatsById[id].unavailable);
+    cart = [...new Set(cart)];
+
+    cart.forEach(id => {
+        document.querySelector(`.seat[data-id="${id}"]`).classList.add("in-cart");
+    });
     renderCart();
 }
 
@@ -211,6 +238,7 @@ function setupResize() {
 function initialize() {
     renderLegend();
     renderVenue();
+    loadCart();
     setupControls();
     fitView();
     applyView();

@@ -21,7 +21,7 @@ const TICKET_CATEGORIES = {
     balcony:  { 
         name: "Balcony",   
         price: 35,  
-        color: "#4fb286" 
+        color: "#644fb2"
     }
 
 };

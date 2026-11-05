@@ -10,7 +10,7 @@
   --vip: #c0392b;
   --premium: #e2b04a;
   --standard: #3a8fd9;
-  --balcony: #4fb286;
+  --balcony: #644fb2;
 }
 
 * { box-sizing: border-box; }
@@ -142,16 +142,28 @@ body {
   padding: 0;
   border: 0;
   border-radius: 5px 5px 2px 2px;
+  background: var(--seat-color);
   cursor: pointer;
 }
 
-.seat.in-cart {
-  background: #fff;
+.seat:hover:not(:disabled) {
+  outline: 2px solid #fff;
+}
+
+.seat.unavailable {
+  background: #3a3648;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .seat.in-cart {
   background: #22dd55;
   outline: 2px solid #0b7a2a;
+}
+
+.seat.inspected {
+  outline: 3px solid #fff;
+  z-index: 1;
 }
 
 .cart-list li {
@@ -170,6 +182,33 @@ body {
   border-radius: 4px;
   padding: 0.2rem 0.5rem;
   cursor: pointer;
+}
+
+/* Remove the delay and accidental double-tap zoom on buttons */
+button { touch-action: manipulation; }
+
+/* Visible focus for keyboard users */
+.seat:focus-visible,
+.map-controls button:focus-visible,
+.remove-btn:focus-visible,
+.primary:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Tablets and phones: bigger tap targets */
+@media (max-width: 900px) {
+  .map-controls button { min-width: 3rem; min-height: 3rem; }
+  .remove-btn { min-height: 2.5rem; padding: 0.3rem 0.8rem; }
+  .primary { min-height: 3rem; }
+}
+
+/* Phones: tighter spacing, controls share the row */
+@media (max-width: 480px) {
+  .site-header { padding: 0.75rem 1rem; }
+  .panel { padding: 0.75rem; }
+  .map-controls { gap: 0.3rem; }
+  .map-controls button { flex: 1 1 3rem; }
 }
 .remove-btn:hover { border-color: #c0392b; }
 

@@ -15,10 +15,13 @@ function renderLegend() {
 
     Object.values(TICKET_CATEGORIES).forEach(cat => {
         const swatch = `<span class="swatch" style="background:${cat.color}"></span>`;
-
-        legend.insertAdjacentHTML("beforeend", `<li>${swatch}${cat.name}</li>`);
         priceList.insertAdjacentHTML("beforeend", `<li>${swatch}${cat.name}: <strong>$${cat.price}</strong></li>`);
     });
+
+    legend.insertAdjacentHTML("beforeend",
+        `<li><span class="swatch swatch-inspected"></span>Selected</li>
+         <li><span class="swatch swatch-unavailable"></span>Unavailable</li>
+         <li><span class="swatch swatch-incart"></span>In cart</li>`);
 }
 
 
@@ -213,7 +216,12 @@ function removeFromCart(id) {
 
 
 function saveCart() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    } catch(error) {
+        console.warn("Console.warn");
+    }
+    
 }
 
 function loadCart() {

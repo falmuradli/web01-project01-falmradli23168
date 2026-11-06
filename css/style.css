@@ -83,7 +83,7 @@ body {
   top: 0;
   left: 0;
   width: 1000px;   
-  height: 760px;   
+  height: 700px;   
   transform-origin: 0 0;
 }
 .stage {
@@ -94,7 +94,7 @@ body {
   height: 80px;
   display: grid;
   place-items: center;
-  background: #3b3550;
+  background: #d6d5da;
   border-radius: 0 0 60px 60px;
   letter-spacing: 0.4em;
   color: var(--muted);
@@ -201,6 +201,18 @@ button { touch-action: manipulation; }
   .map-controls button { min-width: 3rem; min-height: 3rem; }
   .remove-btn { min-height: 2.5rem; padding: 0.3rem 0.8rem; }
   .primary { min-height: 3rem; }
+}
+
+.swatch-inspected   { 
+  background: transparent; 
+  outline: 2px solid #fff; 
+}
+.swatch-incart      { 
+  background: #22dd55; 
+}
+.swatch-unavailable { 
+  background: #3a3648; 
+  opacity: 0.5; 
 }
 
 /* Phones: tighter spacing, controls share the row */

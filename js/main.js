@@ -146,10 +146,10 @@ function setupControls() {
 
         switch (action) {
             case "zoom-in":
-                view.scale = Math.min(MAX_SCALE, view.scale + ZOOM_STEP);
+                zoomAtCenter(view.scale + ZOOM_STEP);
                 break;
             case "zoom-out":
-                view.scale = Math.max(MIN_SCALE, view.scale - ZOOM_STEP);
+                zoomAtCenter(view.scale - ZOOM_STEP);
                 break;
             case "move-up":
                 view.y += MOVE_STEP;
@@ -336,6 +336,18 @@ function setupDragPan() {
             event.preventDefault();
         }
     }, true);
+}
+
+function zoomAtCenter(newScale) {
+    const viewport = document.getElementById("map-viewport");
+    const cx = viewport.clientWidth / 2;
+    const cy = viewport.clientHeight / 2;
+    const mapX = (cx - view.x) / view.scale;
+    const mapY = (cy - view.y) / view.scale;
+
+    view.scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, newScale));
+    view.x = cx - mapX * view.scale;
+    view.y = cy - mapY * view.scale;
 }
 
 // LOAD EVERYTHING

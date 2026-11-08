@@ -215,12 +215,32 @@ button { touch-action: manipulation; }
   opacity: 0.5; 
 }
 
+.row-label {
+  position: absolute;
+  width: 14px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  pointer-events: none;
+  user-select: none;
+}
+
+.seat {
+  font-size: 9px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+}
+
 /* Phones: tighter spacing, controls share the row */
 @media (max-width: 480px) {
   .site-header { padding: 0.75rem 1rem; }
   .panel { padding: 0.75rem; }
   .map-controls { gap: 0.3rem; }
-  .map-controls button { flex: 1 1 3rem; }
+  .map-controls button { flex: 1 1 3rem; font-size: 0.85rem; padding: 0.4rem 0.5rem;}
 }
 .remove-btn:hover { border-color: #c0392b; }
 

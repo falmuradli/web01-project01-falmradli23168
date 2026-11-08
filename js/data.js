@@ -36,7 +36,7 @@ const VENUE  = {
 
     sections: [
         {
-            id:"BOXL", name: "Box left", category:"vip",
+            id:"BOXL", name: "Box left", category:"vip", rowLabelSide: "right",
             origin: {x:12, y:200}, firstRow: "A", rows: 4, seatsPerRow: 2,
             unavailable: ["A-1"]
         },

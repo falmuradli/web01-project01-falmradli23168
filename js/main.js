@@ -34,11 +34,19 @@ function renderVenue() {
 
         for (let r = 0; r < section.rows; r++) {
             const rowLetter = String.fromCharCode(section.firstRow.charCodeAt(0) + r);
+            const rowLabel = document.createElement("div");
+            rowLabel.className = "row-label";
+            rowLabel.textContent = rowLetter;
+            const rightEdge = section.origin.x + (section.seatsPerRow - 1) * pitch + VENUE.seatSize;
+            rowLabel.style.left = (section.rowLabelSide === "right" ? rightEdge + 4 : section.origin.x - 16) + "px";
+            rowLabel.style.top = section.origin.y + r * pitch + "px";
+            canvas.appendChild(rowLabel);
 
             for (let n = 1; n <= section.seatsPerRow; n++) {
                 const seat = document.createElement("button");
                 seat.type = "button";
                 seat.className = "seat";
+                seat.textContent = n;
                 seat.dataset.id = makeSeatId(section.id, rowLetter, n);
                 seat.style.left = section.origin.x + (n - 1) * pitch + "px";
                 seat.style.top = section.origin.y + r * pitch + "px";

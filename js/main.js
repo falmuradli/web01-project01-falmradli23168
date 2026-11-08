@@ -11,11 +11,11 @@ const STORAGE_KEY = "meridian-cart";
 
 function renderLegend() {
     const legend = document.getElementById("legend");
-    const priceList = document.getElementById("price-list");
 
     Object.values(TICKET_CATEGORIES).forEach(cat => {
         const swatch = `<span class="swatch" style="background:${cat.color}"></span>`;
-        priceList.insertAdjacentHTML("beforeend", `<li>${swatch}${cat.name}: <strong>$${cat.price}</strong></li>`);
+        legend.insertAdjacentHTML("beforeend",
+            `<li>${swatch}${cat.name}: <strong>$${cat.price}</strong></li>`);
     });
 
     legend.insertAdjacentHTML("beforeend",

@@ -132,7 +132,7 @@ body {
 }
 .primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.cart-list { list-style: none; margin: 0; padding: 0; }
+.cart-list { list-style: none; margin: 0; padding: 0; max-height: 30vh; overflow-y: auto;}
 .cart-total { margin: 0.75rem 0 0; font-size: 1.1rem; }
 
 .seat {
